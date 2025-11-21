@@ -116,11 +116,13 @@ class Game {
                         this.pacman.setDirection({ x: 1, y: 0 });
                         e.preventDefault();
                         break;
-                    case ' ':
-                        this.togglePause();
-                        e.preventDefault();
-                        break;
                 }
+            }
+
+            // Pause/Unpause toggle (works in both PLAYING and PAUSED states)
+            if ((this.state === GameState.PLAYING || this.state === GameState.PAUSED) && e.key === ' ') {
+                this.togglePause();
+                e.preventDefault();
             }
 
             // Mute toggle
