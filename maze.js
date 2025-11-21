@@ -102,12 +102,10 @@ class Maze {
     }
 
     eatPellet(x, y) {
-        // Check the center of Pac-Man and round to nearest tile
-        const centerX = x + TILE_SIZE / 2;
-        const centerY = y + TILE_SIZE / 2;
-
-        const tileX = Math.round(centerX / TILE_SIZE);
-        const tileY = Math.round(centerY / TILE_SIZE);
+        // Check which tile Pac-Man's center is in
+        // Add half tile size to get center, then floor to get the tile
+        const tileX = Math.floor((x + TILE_SIZE / 2) / TILE_SIZE);
+        const tileY = Math.floor((y + TILE_SIZE / 2) / TILE_SIZE);
 
         if (tileY < 0 || tileY >= MAZE_HEIGHT || tileX < 0 || tileX >= MAZE_WIDTH) {
             return 0;
