@@ -56,7 +56,10 @@ class Game {
         });
 
         // Menu button
-        document.getElementById('menuButton').addEventListener('click', () => {
+        document.getElementById('menuButton').addEventListener('click', async () => {
+            await audioManager.init();
+            audioManager.stopBackgroundMusic();
+            audioManager.play('startScreenMusic');
             this.showScreen('startScreen');
             this.state = GameState.START;
         });
@@ -69,6 +72,19 @@ class Game {
         });
 
         this.updateUI();
+
+        // Initialize audio and play start screen music
+        this.initStartScreenAudio();
+    }
+
+    async initStartScreenAudio() {
+        // Try to init audio (may require user interaction)
+        try {
+            await audioManager.init();
+            audioManager.play('startScreenMusic');
+        } catch (e) {
+            // Audio will be initialized on first user interaction (start button click)
+        }
     }
 
     initializeControls() {
@@ -114,6 +130,8 @@ class Game {
 
     async startGame() {
         await audioManager.init();
+
+        audioManager.stopStartScreenMusic();
 
         this.state = GameState.PLAYING;
         this.score = 0;

@@ -79,8 +79,10 @@ class Maze {
     }
 
     canMove(x, y, direction) {
-        const nextX = x + direction.x * TILE_SIZE;
-        const nextY = y + direction.y * TILE_SIZE;
+        // Check a small step ahead (just a few pixels, not full tile)
+        const step = 4; // Check 4 pixels ahead
+        const nextX = x + direction.x * step;
+        const nextY = y + direction.y * step;
 
         // Check all corners of the character
         const size = TILE_SIZE - 2;
