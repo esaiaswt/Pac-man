@@ -67,6 +67,12 @@ class Maze {
         const tileX = Math.floor(x / TILE_SIZE);
         const tileY = Math.floor(y / TILE_SIZE);
 
+        // Special handling for tunnel row - allow passage even when out of horizontal bounds
+        const tunnelRow = 10; // Row index for the tunnel
+        if (tileY === tunnelRow && (tileX < 0 || tileX >= MAZE_WIDTH)) {
+            return 0; // Treat as empty path (allow passage)
+        }
+
         if (tileY < 0 || tileY >= MAZE_HEIGHT || tileX < 0 || tileX >= MAZE_WIDTH) {
             return 1; // Wall
         }
@@ -75,7 +81,8 @@ class Maze {
     }
 
     isWall(x, y) {
-        return this.getTile(x, y) === 1;
+        const tile = this.getTile(x, y);
+        return tile === 1; // Only walls block movement (tunnel tiles with value 5 are passable)
     }
 
     canMove(x, y, direction) {
