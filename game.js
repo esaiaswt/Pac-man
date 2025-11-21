@@ -69,6 +69,15 @@ class Game {
             const isMuted = audioManager.toggleMute();
             document.getElementById('muteButton').textContent = isMuted ? '🔇' : '🔊';
             document.getElementById('muteButton').classList.toggle('muted', isMuted);
+
+            // Restart appropriate music if unmuting
+            if (!isMuted) {
+                if (this.state === GameState.START) {
+                    audioManager.play('startScreenMusic');
+                } else if (this.state === GameState.PLAYING) {
+                    audioManager.play('bgMusic');
+                }
+            }
         });
 
         this.updateUI();
@@ -119,6 +128,15 @@ class Game {
                 const isMuted = audioManager.toggleMute();
                 document.getElementById('muteButton').textContent = isMuted ? '🔇' : '🔊';
                 document.getElementById('muteButton').classList.toggle('muted', isMuted);
+
+                // Restart appropriate music if unmuting
+                if (!isMuted) {
+                    if (this.state === GameState.START) {
+                        audioManager.play('startScreenMusic');
+                    } else if (this.state === GameState.PLAYING) {
+                        audioManager.play('bgMusic');
+                    }
+                }
             }
 
             // Start game from start screen

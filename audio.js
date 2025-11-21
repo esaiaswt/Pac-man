@@ -305,6 +305,29 @@ class AudioManager {
             this.sounds[soundName]();
         }
     }
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+
+        if (this.initialized) {
+            if (this.isMuted) {
+                this.stopBackgroundMusic();
+                this.stopStartScreenMusic();
+                this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
+            } else {
+                this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
+                // Music will be restarted by game state
+            }
+        }
+
+        return this.isMuted;
+    }
+
+    setMuted(muted) {
+        if (this.isMuted !== muted) {
+            this.toggleMute();
+        }
+    }
 }
 
 // Global audio manager instance

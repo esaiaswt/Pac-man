@@ -36,11 +36,17 @@ class PacMan {
             this.y += this.direction.y * this.speed;
         }
 
-        // Handle tunnel wrapping
-        if (this.x < -TILE_SIZE) {
-            this.x = MAZE_WIDTH * TILE_SIZE;
-        } else if (this.x > MAZE_WIDTH * TILE_SIZE) {
-            this.x = -TILE_SIZE;
+        // Handle tunnel wrapping - allow passage at the tunnel row (y coordinate around row 10)
+        const tunnelY = 10 * TILE_SIZE;
+        const isInTunnel = Math.abs(this.y - tunnelY) < TILE_SIZE / 2;
+
+        if (isInTunnel) {
+            // Wrap at the edges when in the tunnel
+            if (this.x < -TILE_SIZE / 2) {
+                this.x = MAZE_WIDTH * TILE_SIZE - TILE_SIZE / 2;
+            } else if (this.x > MAZE_WIDTH * TILE_SIZE - TILE_SIZE / 2) {
+                this.x = -TILE_SIZE / 2;
+            }
         }
 
         // Animate mouth
@@ -57,11 +63,11 @@ class PacMan {
         const distX = Math.abs(this.x - tileX);
         const distY = Math.abs(this.y - tileY);
 
-        // If close to grid and changing direction, snap to grid
-        if (distX < 2 && this.direction.x === 0) {
+        // Only snap if very close and not moving in that direction
+        if (distX < 1 && this.direction.x === 0) {
             this.x = tileX;
         }
-        if (distY < 2 && this.direction.y === 0) {
+        if (distY < 1 && this.direction.y === 0) {
             this.y = tileY;
         }
     }
