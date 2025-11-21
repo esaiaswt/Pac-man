@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAC-MAN | Retro Arcade Game</title>
+    <meta name="description" content="Classic Pac-Man arcade game with retro aesthetics, music, and sound effects">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="arcade-cabinet">
+        <div class="screen-bezel">
+            <div class="game-container">
+                <!-- Start Screen -->
+                <div id="startScreen" class="screen active">
+                    <div class="title-container">
+                        <h1 class="game-title">PAC-MAN</h1>
+                        <div class="ghost-parade">
+                            <div class="ghost-preview blinky"></div>
+                            <div class="ghost-preview pinky"></div>
+                            <div class="ghost-preview inky"></div>
+                            <div class="ghost-preview clyde"></div>
+                        </div>
+                        <p class="subtitle">RETRO ARCADE</p>
+                    </div>
+                    <div class="menu">
+                        <button id="startButton" class="arcade-button pulse">PRESS START</button>
+                        <div class="controls-info">
+                            <p>USE ARROW KEYS TO MOVE</p>
+                            <p>PRESS SPACEBAR TO PAUSE</p>
+                            <p>PRESS M TO MUTE/UNMUTE</p>
+                        </div>
+                    </div>
+                    <div class="character-info">
+                        <div class="info-row">
+                            <span class="character-name blinky-text">BLINKY</span>
+                            <span class="character-nickname">- SHADOW</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="character-name pinky-text">PINKY</span>
+                            <span class="character-nickname">- SPEEDY</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="character-name inky-text">INKY</span>
+                            <span class="character-nickname">- BASHFUL</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="character-name clyde-text">CLYDE</span>
+                            <span class="character-nickname">- POKEY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Screen -->
+                <div id="gameScreen" class="screen">
+                    <div class="hud">
+                        <div class="hud-left">
+                            <div class="score-container">
+                                <span class="label">SCORE</span>
+                                <span id="score" class="value">0</span>
+                            </div>
+                            <div class="high-score-container">
+                                <span class="label">HIGH SCORE</span>
+                                <span id="highScore" class="value">0</span>
+                            </div>
+                        </div>
+                        <div class="hud-right">
+                            <div class="lives-container">
+                                <span class="label">LIVES</span>
+                                <div id="lives" class="lives-display"></div>
+                            </div>
+                            <div class="level-container">
+                                <span class="label">LEVEL</span>
+                                <span id="level" class="value">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="gameCanvas"></canvas>
+                    <div id="pauseOverlay" class="overlay">
+                        <h2>PAUSED</h2>
+                        <p>Press SPACEBAR to resume</p>
+                    </div>
+                    <div id="readyOverlay" class="overlay active">
+                        <h2 class="ready-text">READY!</h2>
+                    </div>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div id="gameOverScreen" class="screen">
+                    <div class="game-over-container">
+                        <h1 class="game-over-title">GAME OVER</h1>
+                        <div class="final-stats">
+                            <div class="stat">
+                                <span class="stat-label">FINAL SCORE</span>
+                                <span id="finalScore" class="stat-value">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">LEVEL REACHED</span>
+                                <span id="finalLevel" class="stat-value">1</span>
+                            </div>
+                        </div>
+                        <button id="restartButton" class="arcade-button pulse">PLAY AGAIN</button>
+                        <button id="menuButton" class="arcade-button">MAIN MENU</button>
+                    </div>
+                </div>
+
+                <!-- Audio Controls -->
+                <div class="audio-controls">
+                    <button id="muteButton" class="icon-button" title="Mute/Unmute">
+                        🔊
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scanline Effect -->
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Game Scripts -->
+    <script src="audio.js"></script>
+    <script src="maze.js"></script>
+    <script src="pacman.js"></script>
+    <script src="ghost.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
