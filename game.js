@@ -75,53 +75,77 @@ class Game {
                 if (this.state === GameState.START) {
                     audioManager.play('startScreenMusic');
                 } else if (this.state === GameState.PLAYING) {
-                    switch (e.key) {
-                        case 'ArrowUp':
-                            this.pacman.setDirection({ x: 0, y: -1 });
-                            e.preventDefault();
-                            break;
-                        case 'ArrowDown':
-                            this.pacman.setDirection({ x: 0, y: 1 });
-                            e.preventDefault();
-                            break;
-                        case 'ArrowLeft':
-                            this.pacman.setDirection({ x: -1, y: 0 });
-                            e.preventDefault();
-                            break;
-                        case 'ArrowRight':
-                            this.pacman.setDirection({ x: 1, y: 0 });
-                            e.preventDefault();
-                            break;
+                    audioManager.play('bgMusic');
+                }
+            }
+        });
+
+        this.updateUI();
+
+        // Initialize audio and play start screen music
+        this.initStartScreenAudio();
+    }
+
+    async initStartScreenAudio() {
+        // Try to init audio (may require user interaction)
+        try {
+            await audioManager.init();
+            audioManager.play('startScreenMusic');
+        } catch (e) {
+            // Audio will be initialized on first user interaction (start button click)
+        }
+    }
+
+    initializeControls() {
+        document.addEventListener('keydown', (e) => {
+            if (this.state === GameState.PLAYING) {
+                switch (e.key) {
+                    case 'ArrowUp':
+                        this.pacman.setDirection({ x: 0, y: -1 });
+                        e.preventDefault();
+                        break;
+                    case 'ArrowDown':
+                        this.pacman.setDirection({ x: 0, y: 1 });
+                        e.preventDefault();
+                        break;
+                    case 'ArrowLeft':
+                        this.pacman.setDirection({ x: -1, y: 0 });
+                        e.preventDefault();
+                        break;
+                    case 'ArrowRight':
+                        this.pacman.setDirection({ x: 1, y: 0 });
+                        e.preventDefault();
+                        break;
+                }
+            }
+
+            // Pause/Unpause toggle (works in both PLAYING and PAUSED states)
+            if ((this.state === GameState.PLAYING || this.state === GameState.PAUSED) && e.key === ' ') {
+                this.togglePause();
+                e.preventDefault();
+            }
+
+            // Mute toggle
+            if (e.key === 'm' || e.key === 'M') {
+                const isMuted = audioManager.toggleMute();
+                document.getElementById('muteButton').textContent = isMuted ? '🔇' : '🔊';
+                document.getElementById('muteButton').classList.toggle('muted', isMuted);
+
+                // Restart appropriate music if unmuting
+                if (!isMuted) {
+                    if (this.state === GameState.START) {
+                        audioManager.play('startScreenMusic');
+                    } else if (this.state === GameState.PLAYING) {
+                        audioManager.play('bgMusic');
                     }
                 }
+            }
 
-                // Pause/Unpause toggle (works in both PLAYING and PAUSED states)
-                if ((this.state === GameState.PLAYING || this.state === GameState.PAUSED) && e.key === ' ') {
-                    this.togglePause();
-                    e.preventDefault();
-                }
-
-                // Mute toggle
-                if (e.key === 'm' || e.key === 'M') {
-                    const isMuted = audioManager.toggleMute();
-                    document.getElementById('muteButton').textContent = isMuted ? '🔇' : '🔊';
-                    document.getElementById('muteButton').classList.toggle('muted', isMuted);
-
-                    // Restart appropriate music if unmuting
-                    if (!isMuted) {
-                        if (this.state === GameState.START) {
-                            audioManager.play('startScreenMusic');
-                        } else if (this.state === GameState.PLAYING) {
-                            audioManager.play('bgMusic');
-                        }
-                    }
-                }
-
-                // Start game from start screen
-                if (this.state === GameState.START && e.key === 'Enter') {
-                    this.startGame();
-                }
-            });
+            // Start game from start screen
+            if (this.state === GameState.START && e.key === 'Enter') {
+                this.startGame();
+            }
+        });
     }
 
     async startGame() {
