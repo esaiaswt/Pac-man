@@ -81,31 +81,62 @@ class Ghost {
         // At intersection, choose best direction
         if (this.isAtIntersection()) {
             const possibleDirections = this.getPossibleDirections();
+
+            if (possibleDirections.length === 0) {
+                // No possible directions - shouldn't happen but handle it
+                return;
+            }
+
             let bestDirection = this.direction;
             let bestDistance = Infinity;
+            let foundNonReverse = false;
 
+            // First pass - try to find direction that's not a reverse
             for (const dir of possibleDirections) {
-                // Don't reverse direction unless necessary
-                if (dir.x === -this.direction.x && dir.y === -this.direction.y) {
-                    continue;
+                // Don't reverse direction unless it's the only option
+                const isReverse = dir.x === -this.direction.x && dir.y === -this.direction.y;
+
+                if (!isReverse) {
+                    const nextX = this.x + dir.x * TILE_SIZE;
+                    const nextY = this.y + dir.y * TILE_SIZE;
+
+                    let distance;
+                    if (this.mode === GhostMode.FRIGHTENED) {
+                        // Random direction when frightened
+                        distance = Math.random();
+                    } else {
+                        const dx = nextX - target.x;
+                        const dy = nextY - target.y;
+                        distance = dx * dx + dy * dy;
+                    }
+
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        bestDirection = dir;
+                        foundNonReverse = true;
+                    }
                 }
+            }
 
-                const nextX = this.x + dir.x * TILE_SIZE;
-                const nextY = this.y + dir.y * TILE_SIZE;
+            // If we only found reverse directions, allow it
+            if (!foundNonReverse) {
+                for (const dir of possibleDirections) {
+                    const nextX = this.x + dir.x * TILE_SIZE;
+                    const nextY = this.y + dir.y * TILE_SIZE;
 
-                let distance;
-                if (this.mode === GhostMode.FRIGHTENED) {
-                    // Random direction when frightened
-                    distance = Math.random();
-                } else {
-                    const dx = nextX - target.x;
-                    const dy = nextY - target.y;
-                    distance = dx * dx + dy * dy;
-                }
+                    let distance;
+                    if (this.mode === GhostMode.FRIGHTENED) {
+                        distance = Math.random();
+                    } else {
+                        const dx = nextX - target.x;
+                        const dy = nextY - target.y;
+                        distance = dx * dx + dy * dy;
+                    }
 
-                if (distance < bestDistance) {
-                    bestDistance = distance;
-                    bestDirection = dir;
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        bestDirection = dir;
+                    }
                 }
             }
 
@@ -120,6 +151,14 @@ class Ghost {
         if (this.maze.canMove(this.x, this.y, this.direction)) {
             this.x += this.direction.x * speed;
             this.y += this.direction.y * speed;
+        } else {
+            // If can't move in current direction, try to find a new one
+            const possibleDirections = this.getPossibleDirections();
+            if (possibleDirections.length > 0) {
+                // Pick a random direction when stuck
+                this.direction = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
+                this.eyeDirection = this.direction;
+            }
         }
     }
 
