@@ -32,6 +32,44 @@ A fully-functional, retro-styled Pac-Man arcade game built with vanilla HTML, CS
   - Pause functionality
   - Responsive design
 
+## 🎓 Educational Training Materials
+
+This project includes **comprehensive coding training materials** designed to teach youth (ages 12+) web development through game programming!
+
+### 📚 What's Included
+
+The [`Training/`](Training/) folder contains a complete curriculum:
+
+- **9 Scaffolded Modules** (40-60 hours)
+  - **Basic Level** (Modules 1-3): HTML, CSS, and web fundamentals
+  - **Intermediate Level** (Modules 4-6): JavaScript, game development, and interactivity
+  - **Advanced Level** (Modules 7-9): OOP, AI algorithms, and Web Audio API
+
+- **5 Progressive Challenges**: From maze design to visual effects
+- **3 Assessment Rubrics**: Comprehensive evaluation criteria for each level
+- **Instructor Guide**: Teaching strategies, common challenges, and facilitation tips
+- **Answer Keys**: Solutions and guidance for all exercises
+
+### 🎯 Learning Path
+
+```
+Basic → HTML/CSS fundamentals → Build styled web pages
+Intermediate → JavaScript & Canvas → Create interactive games  
+Advanced → OOP & AI → Build complex game systems
+```
+
+### 🚀 Get Started
+
+Perfect for:
+- **Bootcamps**: 2-week intensive program
+- **Schools**: Semester-long course (12-16 weeks)
+- **Clubs**: 6-month after-school program
+- **Self-learners**: Work at your own pace
+
+📖 **[Start Learning →](Training/README.md)**
+
+---
+
 ## 🕹️ How to Play
 
 ### Controls
@@ -116,12 +154,13 @@ The game will automatically update on GitHub Pages within a few minutes.
 Pac-man/
 ├── index.html          # Main HTML structure
 ├── styles.css          # Retro arcade styling
-├── game.js            # Main game engine
-├── maze.js            # Maze layout and rendering
-├── pacman.js          # Pac-Man character logic
-├── ghost.js           # Ghost AI and behaviors
-├── audio.js           # Web Audio API sound system
-└── README.md          # This file
+├── game.js             # Main game engine
+├── maze.js             # Maze layout and rendering
+├── pacman.js           # Pac-Man character logic
+├── ghost.js            # Ghost AI and behaviors
+├── audio.js            # Web Audio API sound system
+├── Training/           # Educational materials (9 modules, challenges, rubrics)
+└── README.md           # This file
 ```
 
 ### Browser Compatibility
